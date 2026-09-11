@@ -1,0 +1,6 @@
+
+*** BUILD SUCCESS ***
+Running SolarSystem.exe...
+
+'D:\cg_project\SolarSystem.exe' was blocked by your organization's Device Guard policy.
+Contact your support person for more info.
