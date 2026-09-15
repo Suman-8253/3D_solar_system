@@ -1,150 +1,110 @@
-# Interactive 3D Solar System Simulation Using Geometric Transformations and Animation
+# 3D Solar System
 
-## 1. Project Title
-**Interactive 3D Solar System Simulation Using Geometric Transformations and Animation**
+An interactive 3D solar-system simulation written in C with OpenGL and FreeGLUT. It demonstrates hierarchical modeling, matrix transformations, lighting, perspective projection, animation, camera controls, and planet selection.
 
-## 2. Introduction
-This project is an interactive 3D Solar System simulation developed using C++ and OpenGL. It demonstrates the application of fundamental Computer Graphics concepts to create a real-time visualization of planets orbiting the Sun.
+## Features
 
-## 3. Problem Statement
-To design and implement a 3D environment that visually simulates the solar system, providing an interactive way to observe planetary motion, while applying core computer graphics principles such as transformations, projection, and lighting.
+- Sun, eight planets, Earth's Moon, and Saturn's rings
+- Animated rotation and circular planetary orbits
+- Hierarchical planet and Moon transformations
+- Starfield background and OpenGL lighting
+- Free camera orbit, zoom, and pitch controls
+- Click a planet to open a detailed information view
+- HUD with selected-planet data and simulation state
+- Adjustable animation speed, orbit visibility, and lighting
 
-## 4. Objectives
-* To create an interactive 3D Solar System.
-* To implement 3D geometric transformations.
-* To demonstrate translation, rotation and scaling.
-* To implement hierarchical transformations.
-* To demonstrate perspective projection.
-* To implement real-time animation.
-* To implement camera/view transformations.
-* To demonstrate basic lighting.
-* To provide interactive controls.
-* To visualize planetary motion in a simple educational environment.
+The sizes and distances are intentionally scaled for visibility and are not to scale with the real solar system. Orbits are circular approximations.
 
-## 5. Scope
-The project covers the 8 major planets and Earth's moon. The distances and sizes are scaled for educational and visual purposes rather than strict astronomical accuracy.
+## Project Layout
 
-## 6. Technologies Used
-* **Language**: C++
-* **Graphics API**: OpenGL
-* **Utility Toolkit**: FreeGLUT (or GLUT)
-* **Build System**: CMake
+```text
+src/       C source and header files
+lib/       Bundled third-party headers
+textures/  Reserved for texture assets
+run.ps1    Build and run with the configured MSYS2 UCRT64 toolchain
+build.bat  Windows batch build script
+CMakeLists.txt
+```
 
-## 7. Computer Graphics Concepts Used
-* **3D Modeling**: Utilizing `glutSolidSphere` and `glutSolidTorus` to construct planets and Saturn's rings.
-* **Transformations**: `glTranslatef` for positioning, `glRotatef` for spinning and orbiting, `glScalef` for sizing.
-* **Hierarchical Modeling**: Matrix stack operations (`glPushMatrix`, `glPopMatrix`) to create parent-child relationships (e.g., Earth and Moon).
-* **Lighting & Shading**: Ambient, Diffuse, and Specular lighting with material properties.
-* **Projection**: `gluPerspective` for 3D depth and `gluOrtho2D` for 2D UI overlay.
-* **View/Camera**: `gluLookAt` for dynamic camera positioning.
-* **Double Buffering**: To prevent screen tearing during animations.
+## Requirements
 
-## 8. System Architecture
-The code is modularized into several classes:
-* `main.cpp`: Entry point, GLUT initialization, window management, and input mapping.
-* `SolarSystem`: Scene graph manager that creates and updates all celestial bodies.
-* `Planet`: Encapsulates physical properties, rendering, and transformations of a single body.
-* `Camera`: Manages view vectors, pitch, yaw, and zoom.
-* `Renderer`: Handles OpenGL state initialization, lighting, background, and HUD.
+- Windows, Linux, or macOS
+- OpenGL and GLU development libraries
+- FreeGLUT development libraries
+- GCC or another C compiler
+- CMake 3.10 or newer when using the CMake workflow
 
-## 9. Transformation Techniques
-The core visualization relies on transformations applied in specific orders:
-1. **Push Matrix**: Save current coordinate state.
-2. **Orbit (Revolution)**: Rotate by orbit angle, then translate by orbit radius.
-3. **Push Matrix**: Save planet's position for moons.
-4. **Self-Rotation**: Rotate on local Y-axis for day/night cycle.
-5. **Draw Object**: Render the sphere.
-6. **Pop Matrix**: Restore to planet's position.
-7. **Draw Moons**: Apply similar transformations relative to the planet.
-8. **Pop Matrix**: Restore back to origin (Sun).
+### Windows with MSYS2 UCRT64
 
-## 10. Mathematical Model
-### Circular Orbit
-Planetary motion is approximated as circular orbits:
-* `x = R * cos(theta)`
-* `z = R * sin(theta)`
-(Implemented via sequential `glRotatef(theta)` and `glTranslatef(R, 0, 0)`)
+Install MSYS2, then run the following in the UCRT64 terminal:
 
-### Planet Rotation
-* `rotationAngle = rotationAngle + (rotationSpeed * timeStep)`
+```bash
+pacman -S --needed mingw-w64-ucrt-x86_64-gcc \
+  mingw-w64-ucrt-x86_64-cmake \
+  mingw-w64-ucrt-x86_64-freeglut
+```
 
-### Planet Revolution
-* `orbitAngle = orbitAngle + (orbitSpeed * timeStep)`
+The included `run.ps1` and `build.bat` currently expect the UCRT64 installation at `D:\ucrt64`. Change that path in the script if MSYS2 is installed elsewhere.
 
-## 11. Algorithm
-1. Initialize OpenGL, Camera, and Solar System objects.
-2. For each frame in the Display loop:
-   a. Clear Color and Depth Buffers.
-   b. Setup Projection and View Matrices.
-   c. Draw background stars.
-   d. Setup Lighting.
-   e. For each Planet: Draw orbit paths, apply transformations, render planet, render moons.
-   f. Switch to Orthographic projection and draw HUD.
-   g. Swap Buffers.
-3. In Idle loop, update angles based on elapsed time and request redisplay.
+## Build and Run
 
-## 12. Animation Method
-Animation is achieved using `glutIdleFunc`. We calculate the delta time since the last frame and use it to increment the `rotationAngle` and `orbitAngle` of each planet. This ensures frame-rate independent smooth motion.
+### PowerShell on the configured Windows toolchain
 
-## 13. Camera and Projection
-* **Projection**: `gluPerspective(45.0, aspectRatio, 1.0, 500.0)` is used to give objects realistic size scaling based on distance.
-* **Camera**: A spherical coordinate system converts yaw and pitch angles into Cartesian `posX`, `posY`, `posZ` for `gluLookAt`.
+From the repository root:
 
-## 14. Lighting
-A single directional light source (`GL_LIGHT0`) acts as the Sun. Planets use `glMaterialfv` to define how they react to Ambient, Diffuse, and Specular light. The Sun emits light via the `GL_EMISSION` material property.
+```powershell
+powershell -ExecutionPolicy Bypass -File .\run.ps1
+```
 
-## 15. Features
-* 3D visualization of the Sun, 8 planets, and Moon.
-* Independent revolution and rotation speeds.
-* Hierarchical Moon orbit.
-* Saturn's Rings.
-* Starry background.
-* Toggleable UI, lighting, and orbit paths.
-* Smooth WASD and mouse-style keyboard camera controls.
+This compiles all application sources, creates `SolarSystem.exe`, and launches it. The executable and other generated build output are local artifacts and should not be committed.
 
-## 16. Hardware Requirements
-* **Processor**: 1.0 GHz or higher.
-* **RAM**: 512 MB or higher.
-* **Graphics**: Any GPU supporting OpenGL 2.1 or higher.
+### CMake
 
-## 17. Software Requirements
-* Windows / Linux / macOS.
-* C++ Compiler (GCC / MSVC).
-* CMake (Optional but recommended).
-* FreeGLUT or GLUT development libraries.
+From the repository root:
 
-## 18. Installation Steps
-For Windows using MSYS2 / MinGW:
-1. Install MSYS2.
-2. Open MSYS2 UCRT64 terminal.
-3. Install dependencies: `pacman -S mingw-w64-ucrt-x86_64-gcc mingw-w64-ucrt-x86_64-cmake mingw-w64-ucrt-x86_64-freeglut`
+```bash
+cmake -S . -B build
+cmake --build build
+```
 
-## 19. Compilation Steps
-1. Navigate to the `SolarSystem` directory.
-2. Create a build directory: `mkdir build && cd build`
-3. Generate makefiles: `cmake .. -G "MinGW Makefiles"`
-4. Build the executable: `cmake --build .`
+Run the generated `SolarSystemSimulation` executable from the `build` directory. On Windows, make sure the FreeGLUT DLL directory is on `PATH` when launching it.
 
-*Alternative (without CMake):*
-`g++ src/*.cpp -o SolarSystem.exe -lfreeglut -lopengl32 -lglu32`
+## Controls
 
-## 20. Execution Steps
-Run the generated executable:
-`./SolarSystem.exe`
+| Input | Action |
+| --- | --- |
+| `W` / `S` | Zoom in / out |
+| `A` / `D` | Orbit camera left / right |
+| `Q` / `E` | Tilt camera up / down |
+| `R` | Reset the camera to the full solar-system view |
+| Arrow keys | Adjust camera pitch and yaw |
+| Left mouse drag | Orbit the camera |
+| Mouse wheel | Zoom in / out |
+| Left click on a planet | Open its detail view |
+| `0` | Return focus to the full solar system |
+| `1` - `8` | Focus Mercury through Neptune |
+| `Space` / `P` | Pause or resume animation |
+| `+` / `-` | Increase or decrease animation speed |
+| `O` | Show or hide orbit paths |
+| `L` | Enable or disable lighting |
+| `Esc` | Leave detail view, or exit the application |
 
-## 21. Expected Output
-A window will open displaying the Sun at the center with 8 planets orbiting it. A starfield sits in the background. The HUD displays controls and selected planet information. Pressing Space will pause the simulation.
+## Graphics Concepts
 
-## 22. Limitations
-* Orbits are perfectly circular, whereas real planetary orbits are elliptical.
-* Sizes and distances are heavily scaled down; realistic scales would make planets invisible single pixels.
-* No complex texture mapping is used (fallback colors used to ensure cross-platform compatibility out of the box).
+- OpenGL fixed-function lighting and materials
+- Perspective and orthographic projections
+- `glPushMatrix` / `glPopMatrix` hierarchical transformations
+- Translation, rotation, and scaling for celestial bodies
+- Delta-time animation for frame-rate-independent motion
+- Screen-space planet picking with `gluProject`
 
-## 23. Future Enhancements
-* Implementation of elliptical orbits using Kepler's laws.
-* Addition of high-resolution texture mapping via `stb_image.h`.
-* Mouse picking to select planets directly from the 3D view.
-* Skybox implementation for a more realistic space environment.
+## Limitations and Future Work
 
-## 24. Conclusion
-This project successfully demonstrates the core principles of Computer Graphics. By utilizing OpenGL's matrix stack, projection mathematics, and lighting pipeline, a complex and interactive 3D hierarchical simulation was developed. It serves as a robust foundation for understanding 3D transformations and real-time rendering.
+- Planetary scales, distances, and speeds are educational approximations.
+- Orbits are circular rather than elliptical.
+- Texture mapping and a skybox are not currently enabled.
+- Possible future additions include elliptical orbits, richer textures, and expanded interaction in the detail view.
+
+## License
+
+No license file is currently included in this repository.

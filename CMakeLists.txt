@@ -23,6 +23,8 @@ set(SOURCES
     src/Planet.c
     src/Camera.c
     src/Renderer.c
+    src/PlanetInfo.c
+    src/DetailView.c
 )
 
 # Add executable
