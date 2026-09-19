@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.10)
-project(SolarSystemSimulation C)
+project(SolarSystemSimulation CXX)
 
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Find OpenGL
 find_package(OpenGL REQUIRED)
@@ -18,13 +20,16 @@ include_directories(
 
 # Source files
 set(SOURCES
-    src/main.c
-    src/SolarSystem.c
-    src/Planet.c
-    src/Camera.c
-    src/Renderer.c
-    src/PlanetInfo.c
-    src/DetailView.c
+    src/main.cpp
+    src/SolarSystem.cpp
+    src/Planet.cpp
+    src/AsteroidBelt.cpp
+    src/Camera.cpp
+    src/Renderer.cpp
+    src/Lighting.cpp
+    src/UI.cpp
+    src/Input.cpp
+    src/TextureManager.cpp
 )
 
 # Add executable

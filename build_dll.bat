@@ -2,11 +2,11 @@
 setlocal
 set PATH=C:\ucrt64\bin;%PATH%
 
-echo Building 3D Solar System Simulation...
+echo Building DLL...
 
 if not exist build mkdir build
 
-C:\ucrt64\bin\g++.exe ^
+C:\ucrt64\bin\g++.exe -shared ^
   src\main.cpp ^
   src\Planet.cpp ^
   src\Renderer.cpp ^
@@ -17,20 +17,17 @@ C:\ucrt64\bin\g++.exe ^
   src\UI.cpp ^
   src\Input.cpp ^
   src\TextureManager.cpp ^
-  -o build\SolarSystemSimulation.exe ^
+  -o build\SolarSystemSimulation.dll ^
   -Isrc -Ilib ^
   -IC:\ucrt64\include ^
   -LC:\ucrt64\lib ^
   -lfreeglut -lopengl32 -lglu32 ^
-  -fno-lto ^
-  -mwindows ^
-  -std=c++17 ^
-  -O2
+  -fno-lto
 
 if %ERRORLEVEL%==0 (
-    echo *** BUILD SUCCESS ***
+    echo *** DLL BUILD SUCCESS ***
     exit /b 0
 ) else (
-    echo *** BUILD FAILED ***
+    echo *** DLL BUILD FAILED ***
     exit /b %ERRORLEVEL%
 )

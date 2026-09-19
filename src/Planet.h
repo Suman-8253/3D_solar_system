@@ -1,81 +1,111 @@
 #ifndef PLANET_H
 #define PLANET_H
 
+/*  ═══════════════════════════════════════════════════════════════
+    Planet  –  base class for all celestial bodies
+    CG Concepts: Hierarchical transforms, materials, texture mapping,
+                 translation, rotation, scaling
+    ═══════════════════════════════════════════════════════════════ */
+
 #ifdef __APPLE__
 #include <GLUT/glut.h>
 #else
 #include <GL/glut.h>
 #endif
-#include <stdbool.h>
 
-#define MAX_MOONS 10
+#include <string>
+#include <vector>
 
-typedef struct Planet {
-    char  name[32];
+class Planet {
+public:
+    /* ── Identification ── */
+    std::string name;
 
-    /* Size & orbit */
+    /* ── Geometry ── */
     float radius;
     float orbitRadius;
-    float orbitSpeed;
-    float rotationSpeed;
-
-    /* Tilt */
-    float axialTilt;    /* Degrees – planet pole tilt from vertical  */
-    float orbitTilt;    /* Degrees – orbit plane inclination          */
-
-    /* Base color */
+    float orbitSpeed;       /* degrees / second */
+    float rotationSpeed;    /* degrees / second */
+    float axialTilt;        /* degrees */
+    float orbitTilt;        /* degrees */
     float color[3];
 
-    /* Atmosphere / glow */
+    /* ── Atmosphere ── */
     bool  hasAtmosphere;
-    float atmosphereColor[4];   /* RGBA */
-    float atmosphereScale;      /* Multiplier over planet radius        */
+    float atmosphereColor[4];
+    float atmosphereScale;
 
-    /* Ring geometry */
-    float ringInnerRadius;      /* 0 = no rings */
-    float ringOuterRadius;
-    float ringColor[4];         /* RGBA */
+    /* ── Rings ── */
+    bool  hasRings;
+    float ringInnerRadius, ringOuterRadius;
+    float ringColor[4];
 
-    /* Animation state */
+    /* ── Animation state ── */
     float currentOrbitAngle;
     float currentRotationAngle;
 
-    /* Current world position (set during Planet_draw) */
+    /* ── World position (set during draw) ── */
     float posX, posY, posZ;
 
-    /* Legacy flag kept for compatibility */
-    bool hasRings;
+    /* ── Textures ── */
+    GLuint textureID;
+    GLuint cloudTextureID;
+    GLuint ringTextureID;
 
-    /* Moons (hierarchical) */
-    struct Planet* moons[MAX_MOONS];
-    int            numMoons;
-} Planet;
+    /* ── Moons ── */
+    std::vector<Planet*> moons;
 
-/* Core lifecycle */
-void Planet_init(Planet* p, const char* name,
-                 float radius, float orbitRadius,
-                 float orbitSpeed, float rotationSpeed,
-                 float r, float g, float b);
-void Planet_destroy(Planet* p);
+    /* ── Planet information (for HUD display) ── */
+    std::string type;
+    std::string diameter;
+    std::string distFromSun;
+    std::string dayLength;
+    std::string yearLength;
+    std::string avgTemp;
+    std::string gravityStr;
+    std::string numMoonsStr;
+    std::string atmosphereStr;
+    std::string description;
+    std::string funFact;
 
-/* Per-frame */
-void Planet_update(Planet* p, float timeStep, float speedMultiplier);
-void Planet_draw(Planet* p, bool showOrbit, bool useTextures, bool isSelected);
-void Planet_drawOrbit(Planet* p);
+    /* ── Constructor / Destructor ── */
+    Planet(const std::string& name, float radius, float orbitRadius,
+           float orbitSpeed, float rotationSpeed,
+           float r, float g, float b);
+    virtual ~Planet();
 
-/* Helpers */
-void Planet_addMoon(Planet* p, Planet* moon);
-void Planet_setHasRings(Planet* p, bool hasRings,
-                        float innerR, float outerR,
-                        float cr, float cg, float cb, float ca);
-void Planet_setAtmosphere(Planet* p, bool hasAtm,
-                          float scale,
-                          float ar, float ag, float ab, float aa);
-void Planet_setAxialTilt(Planet* p, float tilt);
-void Planet_setOrbitTilt(Planet* p, float tilt);
+    /* ── Per-frame ── */
+    virtual void update(float dt, float speedMult);
+    virtual void draw(bool showOrbit, bool useTextures,
+                      bool isSelected, bool wireframe);
+    void drawOrbit();
 
-/* Draw sub-steps (called from Planet_draw, exposed for Renderer sun-glow) */
-void Planet_drawRings(Planet* p);
-void Planet_drawAtmosphere(Planet* p);
+    /* ── Setup helpers ── */
+    void addMoon(Planet* moon);
+    void setTextures(GLuint tex, GLuint cloudTex, GLuint ringTex);
+    void setAtmosphere(bool has, float scale,
+                       float r, float g, float b, float a);
+    void setRings(bool has, float inner, float outer,
+                  float r, float g, float b, float a);
+    void setInfo(const std::string& type,
+                 const std::string& diameter,
+                 const std::string& dist,
+                 const std::string& day,
+                 const std::string& year,
+                 const std::string& temp,
+                 const std::string& grav,
+                 const std::string& moonCount,
+                 const std::string& atm,
+                 const std::string& desc,
+                 const std::string& fact);
+
+protected:
+    GLUquadric* quadric_;
+
+    void drawBody(bool useTextures, bool wireframe);
+    void drawRings();
+    void drawAtmosphere();
+    void drawSunGlow();
+};
 
 #endif /* PLANET_H */

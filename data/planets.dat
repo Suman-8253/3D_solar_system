@@ -1,0 +1,142 @@
+[Sun]
+Type=G-Type Main-Sequence Star
+Diameter=1,392,700 km
+DistanceSun=0 km
+DayLength=27 Earth days
+YearLength=230 million years (Galactic)
+AvgTemp=5,500 C (Surface)
+Gravity=274 m/s2
+Moons=0
+Atmosphere=Hydrogen, Helium
+Fact=The Sun accounts for 99.86% of the mass in the solar system.
+Description=The Sun is the star at the center of the Solar System. It is a nearly perfect sphere of hot plasma, heated to incandescence by nuclear fusion reactions in its core.
+
+[Mercury]
+Type=Terrestrial Planet
+Diameter=4,879 km
+DistanceSun=57.9 million km
+DayLength=58.6 Earth days
+YearLength=88 Earth days
+AvgTemp=167 C (Avg)
+Gravity=3.7 m/s2
+Moons=0
+Atmosphere=Exosphere (Oxygen, Sodium, Hydrogen)
+Fact=Mercury is the smallest planet in the Solar System and the closest to the Sun.
+Description=Mercury is a rocky, cratered world, slightly larger than Earth's moon. It experiences dramatic temperature changes.
+
+[Venus]
+Type=Terrestrial Planet
+Diameter=12,104 km
+DistanceSun=108.2 million km
+DayLength=243 Earth days
+YearLength=225 Earth days
+AvgTemp=464 C
+Gravity=8.87 m/s2
+Moons=0
+Atmosphere=Carbon Dioxide, Nitrogen
+Fact=Venus spins in the opposite direction of most planets.
+Description=Venus is Earth's planetary twin in size, but its thick, toxic atmosphere traps heat in a runaway greenhouse effect.
+
+[Earth]
+Type=Terrestrial Planet
+Diameter=12,742 km
+DistanceSun=149.6 million km
+DayLength=24 hours
+YearLength=365.25 days
+AvgTemp=15 C
+Gravity=9.8 m/s2
+Moons=1
+Atmosphere=Nitrogen, Oxygen
+Fact=Earth is the only known planet to support life.
+Description=Our home planet, the third from the sun, is a water world with a dynamic atmosphere and diverse ecosystems.
+
+[Moon]
+Type=Natural Satellite
+Diameter=3,474 km
+DistanceSun=150 million km
+DayLength=27.3 Earth days
+YearLength=27.3 Earth days
+AvgTemp=-53 C (Avg)
+Gravity=1.62 m/s2
+Moons=0
+Atmosphere=None
+Fact=The Moon is Earth's only natural satellite.
+Description=A rocky, cratered body that orbits Earth, influencing our tides and stabilizing our planet's wobble.
+
+[Mars]
+Type=Terrestrial Planet
+Diameter=6,779 km
+DistanceSun=227.9 million km
+DayLength=24.6 hours
+YearLength=687 Earth days
+AvgTemp=-65 C
+Gravity=3.7 m/s2
+Moons=2
+Atmosphere=Carbon Dioxide, Nitrogen, Argon
+Fact=Mars is home to Olympus Mons, the largest volcano in the solar system.
+Description=Often called the Red Planet, Mars is a dusty, cold, desert world with a very thin atmosphere.
+
+[Jupiter]
+Type=Gas Giant
+Diameter=139,820 km
+DistanceSun=778.5 million km
+DayLength=9.9 hours
+YearLength=11.8 Earth years
+AvgTemp=-110 C
+Gravity=24.79 m/s2
+Moons=95
+Atmosphere=Hydrogen, Helium
+Fact=Jupiter's Great Red Spot is a giant storm bigger than Earth that has raged for hundreds of years.
+Description=Jupiter is the largest planet in our solar system, a gas giant with beautiful swirling cloud stripes.
+
+[Saturn]
+Type=Gas Giant
+Diameter=116,460 km
+DistanceSun=1.43 billion km
+DayLength=10.7 hours
+YearLength=29.4 Earth years
+AvgTemp=-140 C
+Gravity=10.44 m/s2
+Moons=146
+Atmosphere=Hydrogen, Helium
+Fact=Saturn's ring system is the most extensive and complex in our solar system.
+Description=Adorned with a dazzling, complex system of icy rings, Saturn is unique among the planets.
+
+[Uranus]
+Type=Ice Giant
+Diameter=50,724 km
+DistanceSun=2.87 billion km
+DayLength=17.2 hours
+YearLength=84 Earth years
+AvgTemp=-195 C
+Gravity=8.69 m/s2
+Moons=28
+Atmosphere=Hydrogen, Helium, Methane
+Fact=Uranus rotates on its side, making it unique in the solar system.
+Description=Uranus is an ice giant with a pale cyan hue due to methane in its atmosphere.
+
+[Neptune]
+Type=Ice Giant
+Diameter=49,244 km
+DistanceSun=4.5 billion km
+DayLength=16.1 hours
+YearLength=165 Earth years
+AvgTemp=-200 C
+Gravity=11.15 m/s2
+Moons=16
+Atmosphere=Hydrogen, Helium, Methane
+Fact=Neptune is the windiest planet in our solar system.
+Description=Dark, cold, and whipped by supersonic winds, Neptune is the last of the hydrogen and helium gas giants.
+
+[Pluto]
+Type=Dwarf Planet
+Diameter=2,376 km
+DistanceSun=5.9 billion km
+DayLength=153.3 hours
+YearLength=248 Earth years
+AvgTemp=-225 C
+Gravity=0.62 m/s2
+Moons=5
+Atmosphere=Nitrogen, Methane, Carbon Monoxide
+Fact=Pluto was reclassified from a planet to a dwarf planet in 2006.
+Description=Pluto is a complex and mysterious world with mountains, valleys, plains, craters, and maybe glaciers.

@@ -1,33 +1,36 @@
 #ifndef SOLARSYSTEM_H
 #define SOLARSYSTEM_H
 
+/*  ═══════════════════════════════════════════════════════════════
+    SolarSystem  –  Manager for all celestial bodies
+    ═══════════════════════════════════════════════════════════════ */
+
 #include "Planet.h"
-#include <stdbool.h>
+#include "AsteroidBelt.h"
+#include <vector>
+#include <string>
 
-#define MAX_PLANETS 20
+class SolarSystem {
+public:
+    std::vector<Planet*> planets;
+    AsteroidBelt* asteroidBelt;
+    
+    int selectedPlanetIndex;
 
-typedef struct {
-    Planet* planets[MAX_PLANETS];
-    int     numPlanets;
-    int     selectedPlanetIndex;
-} SolarSystem;
+    SolarSystem();
+    ~SolarSystem();
 
-void    SolarSystem_init(SolarSystem* sys);
-void    SolarSystem_destroy(SolarSystem* sys);
-void    SolarSystem_initializePlanets(SolarSystem* sys);
-void    SolarSystem_update(SolarSystem* sys, float timeStep, float speedMultiplier);
-void    SolarSystem_draw(SolarSystem* sys, bool showOrbits, bool useTextures);
-void    SolarSystem_drawOrbits(SolarSystem* sys);
+    void update(float dt, float speedMult);
+    void draw(bool showOrbits, bool useTextures, bool wireframe);
+    
+    Planet* getSelectedPlanet() const;
+    void selectPlanet(int index);
+    
+    bool loadData(const std::string& path);
 
-Planet* SolarSystem_getPlanet(SolarSystem* sys, int index);
-int     SolarSystem_getNumPlanets(SolarSystem* sys);
-
-void    SolarSystem_setSelectedPlanetIndex(SolarSystem* sys, int index);
-int     SolarSystem_getSelectedPlanetIndex(SolarSystem* sys);
-Planet* SolarSystem_getSelectedPlanet(SolarSystem* sys);
-
-/* Returns the current world-space position of planet [index] */
-void    SolarSystem_getPlanetWorldPos(SolarSystem* sys, int index,
-                                      float* x, float* y, float* z);
+private:
+    void initPlanets();
+    void loadTextures();
+};
 
 #endif /* SOLARSYSTEM_H */

@@ -1,58 +1,52 @@
 #ifndef RENDERER_H
 #define RENDERER_H
 
+/*  ═══════════════════════════════════════════════════════════════
+    Renderer  –  OpenGL initialisation and scene-wide rendering
+    CG Concepts: Depth testing, double buffering, blending,
+                 projection matrices, star field generation
+    ═══════════════════════════════════════════════════════════════ */
+
 #ifdef __APPLE__
 #include <GLUT/glut.h>
 #else
 #include <GL/glut.h>
 #endif
-#include <stdbool.h>
+#include <vector>
 
-#define MAX_STARS 3000
+enum StarClass {
+    STAR_SMALL  = 0,
+    STAR_MEDIUM = 1,
+    STAR_LARGE  = 2
+};
 
-typedef struct Planet   Planet;
-typedef struct Camera   Camera;
-
-/* Star classification for visual variety */
-typedef enum {
-    STAR_SMALL  = 0,   /* tiny white     – majority  */
-    STAR_MEDIUM = 1,   /* medium blue-white           */
-    STAR_LARGE  = 2    /* large warm yellow/orange    */
-} StarClass;
-
-typedef struct {
-    float     x, y, z;
-    float     r, g, b;
-    float     brightness;
-    float     size;
+struct Star {
+    float x, y, z;          /* Position on sphere surface */
+    float r, g, b;          /* Base colour */
+    float brightness;        /* Base brightness [0..1] */
+    float size;              /* Point size in pixels */
+    float twinkleFreq;       /* Oscillation frequency (rad/s) */
+    float twinklePhase;      /* Phase offset for variety */
     StarClass cls;
-} Star;
+};
 
-typedef struct {
-    Star stars[MAX_STARS];
-    int  numStars;
-} Renderer;
+class Renderer {
+public:
+    Renderer();
+    ~Renderer();
 
-/* Lifecycle */
-void Renderer_init(Renderer* r);
-void Renderer_destroy(Renderer* r);
+    void initOpenGL();
+    void setPerspective(int width, int height);
+    void setOrthographic(int width, int height);
 
-/* OpenGL state */
-void Renderer_initOpenGL(Renderer* r);
-void Renderer_setupLighting(Renderer* r, bool lightingEnabled);
-void Renderer_setPerspective(Renderer* r, int width, int height);
-void Renderer_setOrthographic(Renderer* r, int width, int height);
+    void drawStarBackground();
 
-/* Stars */
-void Renderer_generateStars(Renderer* r, int count);
-void Renderer_drawStarBackground(Renderer* r);
+private:
+    std::vector<Star> stars_;
+    GLuint bgTextureID_;
+    float  time_;             /* Accumulated time for twinkling */
 
-/* 2D text / HUD */
-void Renderer_drawText(Renderer* r, float x, float y, const char* text, void* font);
-void Renderer_drawHUD(Renderer* r, int width, int height,
-                      Planet* selectedPlanet,
-                      float speedMult, bool isPaused,
-                      bool orbitsEnabled, bool lightingEnabled, bool texturesEnabled,
-                      int   cameraMode);
+    void generateStars(int count);
+};
 
 #endif /* RENDERER_H */
